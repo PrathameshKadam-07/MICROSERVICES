@@ -14,12 +14,8 @@ public class GlobalExceptionHandler {
 
         String message = ex.getMessage();
 
-        ApiResponse response = ApiResponse.builder()
-                .message(message)
-                .success(false)
-                .status(HttpStatus.NOT_FOUND)  
-                .build();
+        ApiResponse response = new ApiResponse(message,true,HttpStatus.NOT_FOUND);
 
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<ApiResponse>(response, HttpStatus.NOT_FOUND);
     }
 }

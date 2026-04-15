@@ -1,13 +1,14 @@
-package UserService;
+package com.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import entity.User;
-import exception.ResourceNotFoundException;
-import repository.UserRepo;
+import com.entity.User;
+import com.exception.ResourceNotFoundException;
+import com.repository.UserRepo;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -17,8 +18,10 @@ public class UserServiceImp implements UserService {
 	
 	@Override
 	public User saveUser(User user) {
-			
-		return ur.save(user);
+//		Generate Unique Id
+			String randomUserid = UUID.randomUUID().toString();
+			user.setUserid(randomUserid);
+			return ur.save(user);
 	}
 
 	@Override
@@ -38,7 +41,7 @@ public class UserServiceImp implements UserService {
 		String message = null;
 		if(ur.findById(id) != null) {
 			ur.deleteById(id);
-			 message = "User Successfully Deleted";
+			message = "User Successfully Deleted";
 		}
 		else {
 			 message = "User Not Found";

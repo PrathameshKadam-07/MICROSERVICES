@@ -1,9 +1,14 @@
 package com.entity;
 
+import java.util.List;
+
+import com.dto.Ratingdto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "micro_users")
@@ -18,6 +23,9 @@ public class User {
 	private String email;
 	@Column(name = "ABOUT")
 	private String about;
+	@Transient
+	private List<Ratingdto> rating;
+	
 	public User() {
 		super();
 	}
@@ -44,5 +52,11 @@ public class User {
 	}
 	public void setAbout(String about) {
 		this.about = about;
+	}
+	public List<Ratingdto> getRating() {
+		return rating;
+	}
+	public void setRating(List<Ratingdto> rating) {
+		this.rating = rating;
 	}
 }

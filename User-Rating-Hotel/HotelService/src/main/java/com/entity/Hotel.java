@@ -1,12 +1,14 @@
 package com.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Hotel")
 public class Hotel {
 
+	@Id
 	private String id;
 	private String name;
 	private String locaion;

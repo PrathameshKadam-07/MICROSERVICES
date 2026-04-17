@@ -37,5 +37,4 @@ public ResponseEntity<List<Hotel>> getALlHotel (){
 public ResponseEntity<Hotel> getbyId (@RequestParam("id") String id){
 		return ResponseEntity.ok(hs.getHotelbyId(id));
 	}
-	
 }

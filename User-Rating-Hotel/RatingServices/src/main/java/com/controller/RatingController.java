@@ -3,6 +3,8 @@ package com.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,22 +23,22 @@ public class RatingController {
 	RatingService rs;
 	
 	@PostMapping
-	RatingEntity saveRating(@RequestBody RatingEntity re) {
-		return rs.setRating(re); 
+     ResponseEntity<RatingEntity> saveRating(@RequestBody RatingEntity re) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(rs.setRating(re)); 
 	}
 	
 	@GetMapping
-	List<RatingEntity> getAllRating() {
-		return rs.getAllRating(); 
+	ResponseEntity<List<RatingEntity>> getAllRating() {
+		return ResponseEntity.ok(rs.getAllRating()); 
 	}
 	
 	@GetMapping("getRatingByUserId")
-	List<RatingEntity> getRatingByUserid(@RequestParam("userId") String userId) {
-		return rs.getByUserId(userId);
+	ResponseEntity<List<RatingEntity>> getRatingByUserid(@RequestParam("userId") String userId) {
+		return ResponseEntity.ok(rs.getByUserId(userId));
 	}
 	
 	@GetMapping("getRatingByHotelId")
-	List<RatingEntity> getRatingByhotelid(@RequestParam("hotelId") String hotelId) {
-		return rs.getByUserId(hotelId);
+	ResponseEntity<List<RatingEntity>> getRatingByhotelid(@RequestParam("hotelId") String hotelId) {
+		return ResponseEntity.ok(rs.getByUserId(hotelId));
 	}
 }

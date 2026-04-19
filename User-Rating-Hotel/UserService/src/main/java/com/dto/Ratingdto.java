@@ -7,6 +7,8 @@ public class Ratingdto {
 	private String hotelId;
 	private String rating;
 	
+	private HotelDto hotel;
+	
 	public Ratingdto() {
 		super();
 	}
@@ -34,5 +36,13 @@ public class Ratingdto {
 	}
 	public void setRating(String rating) {
 		this.rating = rating;
+	}
+
+	public HotelDto getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(HotelDto hotel) {
+		this.hotel = hotel;
 	}
 }

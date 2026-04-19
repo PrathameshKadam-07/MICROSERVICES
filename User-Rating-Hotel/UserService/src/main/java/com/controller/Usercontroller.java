@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.service.HotelClient;
 import com.service.RatingClient;
 import com.service.UserService;
 import com.entity.User;
@@ -27,6 +28,9 @@ public class Usercontroller {
 	
 	@Autowired
 	RatingClient rc;
+	
+	@Autowired
+	HotelClient ht;
 	
 	@PostMapping
 	public ResponseEntity<User>  saveUser(@RequestBody User user) {
@@ -46,6 +50,7 @@ public class Usercontroller {
 	@GetMapping("/getUserByid")
 	public ResponseEntity<User> getUserById(@RequestParam("userId") String userId) {
 		User user = us.getuserByUserId(userId);
+		
 		user.setRating(rc.getRatingByUserid(user.getUserid()));
 
 		return  ResponseEntity.ok(user);

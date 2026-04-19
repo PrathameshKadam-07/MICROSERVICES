@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.entity.RatingEntity;
 import com.repository.RatingRepo;
 
+@Service
 public class RatingServiceimpl implements RatingService {
 
 	@Autowired 
@@ -33,7 +35,7 @@ public class RatingServiceimpl implements RatingService {
 
 	@Override
 	public List<RatingEntity> getByHoelId(String hotelId) {
-		return rr.findByHotelIdId(hotelId);
+		return rr.findByHotelId(hotelId);
 	}
 
 }

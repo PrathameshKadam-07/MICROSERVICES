@@ -1,8 +1,8 @@
 package com.entity;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.persistence.Id;
 
 @Document("user_rating")
 public class RatingEntity {

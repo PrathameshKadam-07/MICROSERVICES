@@ -1,5 +1,7 @@
 package com.dto;
 
+import jakarta.persistence.Transient;
+
 public class Ratingdto {
 
 	private String ratingId;
@@ -7,6 +9,7 @@ public class Ratingdto {
 	private String hotelId;
 	private String rating;
 	
+	@Transient
 	private HotelDto hotel;
 	
 	public Ratingdto() {

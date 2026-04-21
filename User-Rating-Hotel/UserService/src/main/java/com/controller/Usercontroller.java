@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.service.HotelClient;
 import com.service.RatingClient;
 import com.service.UserService;
+import com.dto.HotelDto;
+import com.dto.Ratingdto;
 import com.entity.User;
 
 @RestController
@@ -37,21 +39,42 @@ public class Usercontroller {
 		return ResponseEntity.status(HttpStatus.CREATED).body(us.saveUser(user));
 	}
 	
-	@GetMapping("/getalluser")
-	public ResponseEntity<List<User>> getAllUser() {
-		List<User> userlist = us.getalluser();
-
-		List<User> userlistup =  userlist.stream().map(user -> {user.setRating(rc.getRatingByUserid(user.getUserid()));
-				return user;}).collect(Collectors.toList());
-		
-		return ResponseEntity.ok(userlistup);
-	}
+		@GetMapping("/getalluser")
+		public ResponseEntity<List<User>> getAllUser() {
+			List<User> userlist = us.getalluser();
 	
+			List<User> userlistup =  userlist.stream().map(user -> {
+				List<Ratingdto> rating = rc.getRatingByUserid(user.getUserid());   
+				
+				List<Ratingdto> updatedRatings = rating.stream().map(rat -> {
+			        HotelDto hotel = ht.getbyId(rat.getHotelId()); // Feign call
+			        rat.setHotel(hotel); // set hotel inside rating
+			        return rat;
+			    }).collect(Collectors.toList());
+				
+//				setting updated rating with hotel for perticular User.
+				user.setRating(updatedRatings);
+				
+				return user;
+			}).collect(Collectors.toList());
+			
+			return ResponseEntity.ok(userlistup);
+		}
+	
+		
 	@GetMapping("/getUserByid")
 	public ResponseEntity<User> getUserById(@RequestParam("userId") String userId) {
 		User user = us.getuserByUserId(userId);
 		
-		user.setRating(rc.getRatingByUserid(user.getUserid()));
+		List<Ratingdto> rating = rc.getRatingByUserid(user.getUserid()) ;   
+
+	    List<Ratingdto> updatedRatings = rating.stream().map(rat -> {
+	        HotelDto hotel = ht.getbyId(rat.getHotelId()); // Feign call
+	        rat.setHotel(hotel); // set hotel inside rating
+	        return rat;
+	    }).collect(Collectors.toList());
+
+		user.setRating(updatedRatings);
 
 		return  ResponseEntity.ok(user);
 	}

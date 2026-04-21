@@ -33,7 +33,7 @@ public class Usercontroller {
 	
 	@Autowired
 	HotelClient ht;
-	
+	 
 	@PostMapping
 	public ResponseEntity<User>  saveUser(@RequestBody User user) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(us.saveUser(user));
@@ -42,23 +42,19 @@ public class Usercontroller {
 		@GetMapping("/getalluser")
 		public ResponseEntity<List<User>> getAllUser() {
 			List<User> userlist = us.getalluser();
-	
-			List<User> userlistup =  userlist.stream().map(user -> {
-				List<Ratingdto> rating = rc.getRatingByUserid(user.getUserid());   
-				
-				List<Ratingdto> updatedRatings = rating.stream().map(rat -> {
-			        HotelDto hotel = ht.getbyId(rat.getHotelId()); // Feign call
-			        rat.setHotel(hotel); // set hotel inside rating
-			        return rat;
-			    }).collect(Collectors.toList());
-				
-//				setting updated rating with hotel for perticular User.
-				user.setRating(updatedRatings);
-				
-				return user;
-			}).collect(Collectors.toList());
 			
-			return ResponseEntity.ok(userlistup);
+			userlist.forEach(user -> {
+				List<Ratingdto> rating = rc.getRatingByUserid(user.getUserid());
+				
+				rating.forEach(rat -> {
+					HotelDto hotel = ht.getbyId(rat.getHotelId());
+					rat.setHotel(hotel);
+				});
+				
+				user.setRating(rating);
+			});
+			
+			return ResponseEntity.ok(userlist);
 		}
 	
 		

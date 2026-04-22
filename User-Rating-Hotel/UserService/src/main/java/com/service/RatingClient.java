@@ -14,7 +14,7 @@ import com.dto.Ratingdto;
 @FeignClient(name = "RATINGSERVICES")
 public interface RatingClient {
 
-	@GetMapping("rating/getRatingByUserId")
+	@GetMapping("/rating/getRatingByUserId")
 	List<Ratingdto> getRatingByUserid(@RequestParam("userId") String userId);
 	
 	@PostMapping("/rating")

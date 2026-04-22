@@ -13,5 +13,4 @@ public interface HotelClient {
 
 @GetMapping("/hotel/getBYid")
 HotelDto getbyId (@RequestParam("id") String id);
-
 }

@@ -79,4 +79,16 @@ public class Usercontroller {
 	public ResponseEntity<String> deleteUserById(@RequestParam("userId") String userId) {
 		return ResponseEntity.ok(us.deletUserById(userId));
 	}
+	
+//	calling post method of other Services.
+	@PostMapping("/createRating")
+	public ResponseEntity<Ratingdto> saveRating(){
+		Ratingdto rating = new Ratingdto();
+		rating.setRatingId("1");
+		rating.setUserId("1");
+		rating.setHotelId("1");
+		rating.setRating("*****");
+		
+		return rc.saveRating(rating);
+	}
 }

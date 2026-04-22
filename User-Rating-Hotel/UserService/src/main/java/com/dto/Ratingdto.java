@@ -1,7 +1,9 @@
 package com.dto;
 
 import jakarta.persistence.Transient;
+import lombok.Builder;
 
+@Builder
 public class Ratingdto {
 
 	private String ratingId;

@@ -42,7 +42,4 @@ public class ApiResponse {
 	public void setStatus(HttpStatus status) {
 		this.status = status;
 	}
-    
-	
-    
 }

@@ -16,7 +16,7 @@ import com.entity.RatingEntity;
 import com.sevice.RatingService;
 
 @RestController
-@RequestMapping("rating")
+@RequestMapping("/rating")
 public class RatingController {
 
 	@Autowired
@@ -32,12 +32,12 @@ public class RatingController {
 		return ResponseEntity.ok(rs.getAllRating()); 
 	}
 	
-	@GetMapping("getRatingByUserId")
+	@GetMapping("/getRatingByUserId")
 	ResponseEntity<List<RatingEntity>> getRatingByUserid(@RequestParam("userId") String userId) {
 		return ResponseEntity.ok(rs.getByUserId(userId));
 	}
 	
-	@GetMapping("getRatingByHotelId")
+	@GetMapping("/getRatingByHotelId")
 	ResponseEntity<List<RatingEntity>> getRatingByhotelid(@RequestParam("hotelId") String hotelId) {
 		return ResponseEntity.ok(rs.getByUserId(hotelId));
 	}

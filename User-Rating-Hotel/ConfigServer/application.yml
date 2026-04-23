@@ -1,7 +1,7 @@
 spring:
   cloud:
     config:
-      server:
+      server:                           
         git:
-          uri: https://github.com/PrathameshKadam-07/MicroServices-Config-Server/tree/main
+          uri: https://github.com/PrathameshKadam-07/MicroServices-Config-Server
           clone-on-start: true

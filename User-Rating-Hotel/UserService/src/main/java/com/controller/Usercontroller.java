@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.service.HotelClient;
 import com.service.RatingClient;
 import com.service.UserService;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 import com.dto.HotelDto;
 import com.dto.Ratingdto;
 import com.entity.User;
@@ -39,8 +43,9 @@ public class Usercontroller {
 		return ResponseEntity.status(HttpStatus.CREATED).body(us.saveUser(user));
 	}
 	
-		@GetMapping("/getalluser")
-		public ResponseEntity<List<User>> getAllUser() {
+	@GetMapping("/getalluser")
+	@CircuitBreaker(name = "getAllUserBreaker",fallbackMethod = "fallbackgetAllUser")
+	public ResponseEntity<List<User>> getAllUser() {
 			List<User> userlist = us.getalluser();
 			
 			userlist.forEach(user -> {
@@ -56,9 +61,24 @@ public class Usercontroller {
 			
 			return ResponseEntity.ok(userlist);
 		}
+
+// Circuit break for getAllUserBreak is Handled here.
+	public ResponseEntity<List<User>> fallbackgetAllUser(Exception ex){
+		User user = new User();
+		user.setUserid("dummy");
+		user.setName("dummy");
+		user.setEmail("dummy@gamil.com");
+		user.setAbout("This user is created for GetALlUser due to Rating Service is Off"+ex.getMessage());
+		
+		ArrayList<User> list = new ArrayList<>();
+		list.add(user);
+		
+		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(list);
+	}
 	
 		
 	@GetMapping("/getUserByid")
+	@CircuitBreaker(name = "getUserBYIdBreaker",fallbackMethod = "fallbackgetByUserId")
 	public ResponseEntity<User> getUserById(@RequestParam("userId") String userId) {
 		User user = us.getuserByUserId(userId);
 		
@@ -74,6 +94,17 @@ public class Usercontroller {
 
 		return  ResponseEntity.ok(user);
 	}
+	
+// Circuit break for getUserById is Handled here.
+		public ResponseEntity<User> fallbackgetByUserId(Exception ex){
+			User user = new User();
+			user.setUserid("dummy");
+			user.setName("dummy");
+			user.setEmail("dummy@gamil.com");
+			user.setAbout("This user for GETBYUSERID is created due to Rating Service is Off"+ex.getMessage());
+			
+			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(user);
+		}
 	
 	@DeleteMapping("/deleteUser")
 	public ResponseEntity<String> deleteUserById(@RequestParam("userId") String userId) {

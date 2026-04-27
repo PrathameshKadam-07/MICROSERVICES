@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.service.HotelClient;
 import com.service.RatingClient;
 import com.service.UserService;
-
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+//
+//import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 
 import com.dto.HotelDto;
@@ -70,7 +70,7 @@ public class Usercontroller {
 		user.setUserid("dummy");
 		user.setName("dummy");
 		user.setEmail("dummy@gamil.com");
-		user.setAbout("This user is created for GetALlUser due to Rating Service is Off"+ex.getMessage());
+		user.setAbout("This user is created for GetALlUser due to Rating Service is Off : "+ex.getMessage());
 		
 		ArrayList<User> list = new ArrayList<>();
 		list.add(user);
@@ -98,12 +98,12 @@ public class Usercontroller {
 	}
 	
 // Circuit break for getUserById is Handled here.
-		public ResponseEntity<User> fallbackgetByUserId(Exception ex){
+		public ResponseEntity<User> fallbackgetByUserId(String uuid,Exception ex){
 			User user = new User();
-			user.setUserid("dummy");
+			user.setUserid(uuid);
 			user.setName("dummy");
 			user.setEmail("dummy@gamil.com");
-			user.setAbout("This user for GETBYUSERID is created due to Rating Service is Off"+ex.getMessage());
+			user.setAbout("This user for GETBYUSERID is created due to Rating Service is Off : "+ex.getMessage());
 			
 			return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(user);
 		}

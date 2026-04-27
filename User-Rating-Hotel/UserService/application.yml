@@ -31,7 +31,7 @@ management:
     health:
       show-details: always
 
-#Resiliance Configuration
+#Resiliance CIRCUIT-Break Configuration
 resilience4j:
   circuitbreaker:
     instances:
@@ -55,3 +55,16 @@ resilience4j:
         waitDurationInOpenState: 10s
         failureRateThreshold: 50
         automaticTransitionFromOpenToHalfOpenEnabled: true
+
+#Resiliance Retry Configuration
+  retry:
+    instances:
+
+      getAllUserRetry:
+        maxAttempts: 3
+        waitDuration: 2s
+
+      getUserByIdRetry:
+        maxAttempts: 3
+        waitDuration: 2s
+      

@@ -67,4 +67,17 @@ resilience4j:
       getUserByIdRetry:
         maxAttempts: 3
         waitDuration: 2s
-      
+
+#Resiliance Rate-Limiter Configuration
+  ratelimiter:
+    instances:
+
+      getAllUserRateLimiter:
+        limitForPeriod: 5
+        limitRefreshPeriod: 10s
+        timeoutDuration: 0
+
+      getUserBYIdRateLimiter:
+        limitForPeriod: 10
+        limitRefreshPeriod: 10s
+        timeoutDuration: 0

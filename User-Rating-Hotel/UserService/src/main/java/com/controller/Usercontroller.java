@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.service.HotelClient;
 import com.service.RatingClient;
 import com.service.UserService;
-//
+
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+
 //import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.retry.annotation.Retry;
+//import io.github.resilience4j.retry.annotation.Retry;
 
 import com.dto.HotelDto;
 import com.dto.Ratingdto;
@@ -46,7 +48,8 @@ public class Usercontroller {
 	
 	@GetMapping("/getalluser")
 //	@CircuitBreaker(name = "getAllUserBreaker",fallbackMethod = "fallbackgetAllUser")
-	@Retry(name = "getAllUserBreaker",fallbackMethod = "fallbackgetAllUser")
+//	@Retry(name = "getAllUserRetry",fallbackMethod = "fallbackgetAllUser")
+	@RateLimiter(name = "getAllUserRateLimiter",fallbackMethod = "fallbackgetAllUser")
 	public ResponseEntity<List<User>> getAllUser() {
 			List<User> userlist = us.getalluser();
 			
@@ -80,7 +83,8 @@ public class Usercontroller {
 			
 	@GetMapping("/getUserByid")
 //	@CircuitBreaker(name = "getUserBYIdBreaker",fallbackMethod = "fallbackgetByUserId")
-	@Retry(name = "getUserBYIdBreaker",fallbackMethod = "fallbackgetByUserId")
+//	@Retry(name = "getUserBYIdRetry",fallbackMethod = "fallbackgetByUserId")
+	@RateLimiter(name = "getUserBYIdRateLimiter",fallbackMethod = "fallbackgetByUserId")
 	public ResponseEntity<User> getUserById(@RequestParam("userId") String userId) {
 		User user = us.getuserByUserId(userId);
 		

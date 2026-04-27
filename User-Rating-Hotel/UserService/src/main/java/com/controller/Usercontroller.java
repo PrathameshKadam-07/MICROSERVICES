@@ -75,8 +75,7 @@ public class Usercontroller {
 		
 		return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(list);
 	}
-	
-		
+			
 	@GetMapping("/getUserByid")
 	@CircuitBreaker(name = "getUserBYIdBreaker",fallbackMethod = "fallbackgetByUserId")
 	public ResponseEntity<User> getUserById(@RequestParam("userId") String userId) {
@@ -109,7 +108,7 @@ public class Usercontroller {
 	@DeleteMapping("/deleteUser")
 	public ResponseEntity<String> deleteUserById(@RequestParam("userId") String userId) {
 		return ResponseEntity.ok(us.deletUserById(userId));
-	}
+	}	
 	
 //	calling post method of other Services.
 	@PostMapping("/createRating")

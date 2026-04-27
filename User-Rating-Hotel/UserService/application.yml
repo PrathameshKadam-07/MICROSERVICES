@@ -17,7 +17,8 @@ spring:
 
   config:
     import: optional:configserver:http://localhost:8085
-
+  
+#actuators Configuration for fault Tolerance
 management:
   health:
     circuitbreakers:
@@ -28,4 +29,29 @@ management:
         include: health
   endpoint:
     health:
-      show-details: never
+      show-details: always
+
+#Resiliance Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+
+      getAllUserBreaker:
+        registerHealthIndicator: true      
+        slidingWindowSize: 10
+        sliding-window-type: count-based
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+
+      getUserBYIdBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        sliding-window-type: count-based
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        automaticTransitionFromOpenToHalfOpenEnabled: true
